@@ -289,52 +289,60 @@ class LetterExplosion {
     const unlockAudio = () => {
       if (this.victorySongUnlocked) return;
 
-      // Play and immediately pause both songs to unlock audio on iOS
-      const unlockPromises = [];
+      // Mark as unlocked immediately to prevent multiple triggers
+      this.victorySongUnlocked = true;
 
+      // Set volume to 0 before attempting to play (silent unlock)
       if (this.victorySongEmoji) {
-        const emojiPromise = this.victorySongEmoji
+        const originalVolume = this.victorySongEmoji.volume;
+        this.victorySongEmoji.volume = 0;
+        this.victorySongEmoji
           .play()
           .then(() => {
             this.victorySongEmoji.pause();
             this.victorySongEmoji.currentTime = 0;
+            this.victorySongEmoji.volume = originalVolume;
           })
           .catch((e) => {
+            this.victorySongEmoji.volume = originalVolume;
             console.log("Emoji victory song unlock attempt:", e.message);
           });
-        unlockPromises.push(emojiPromise);
       }
 
       if (this.victorySongColor) {
-        const colorPromise = this.victorySongColor
+        const originalVolume = this.victorySongColor.volume;
+        this.victorySongColor.volume = 0;
+        this.victorySongColor
           .play()
           .then(() => {
             this.victorySongColor.pause();
             this.victorySongColor.currentTime = 0;
+            this.victorySongColor.volume = originalVolume;
           })
           .catch((e) => {
+            this.victorySongColor.volume = originalVolume;
             console.log("Color victory song unlock attempt:", e.message);
           });
-        unlockPromises.push(colorPromise);
       }
 
-      Promise.all(unlockPromises).then(() => {
-        this.victorySongUnlocked = true;
-        console.log("✓ Victory song audio unlocked for iOS");
-      });
+      console.log("✓ Victory song audio unlocked for iOS (silently)");
     };
 
     // Listen for first user interaction to unlock audio
-    const events = ["touchstart", "touchend", "click", "keydown"];
-    events.forEach((event) => {
-      document.addEventListener(
-        event,
-        () => {
-          unlockAudio();
-        },
-        { once: true, passive: true }
-      );
-    });
+    // Use a single listener that removes itself after first trigger
+    const unlockHandler = () => {
+      unlockAudio();
+      // Remove all listeners after first trigger
+      document.removeEventListener("touchstart", unlockHandler);
+      document.removeEventListener("touchend", unlockHandler);
+      document.removeEventListener("click", unlockHandler);
+      document.removeEventListener("keydown", unlockHandler);
+    };
+
+    document.addEventListener("touchstart", unlockHandler, { passive: true });
+    document.addEventListener("touchend", unlockHandler, { passive: true });
+    document.addEventListener("click", unlockHandler);
+    document.addEventListener("keydown", unlockHandler);
   }
 
   setupElements() {

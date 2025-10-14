@@ -944,55 +944,55 @@ h4 {
    RESPONSIVE DESIGN FOR MOBILE DEVICES
    ======================================== */
 
-/* iPad / Tablet Screens (768px - 1024px) - Scale to 60% (between 1/2 and 2/3) */
+/* iPad / Tablet Screens (768px - 1024px) - Scale to 50% */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   /* Scale down emoji size for tablets */
   h1 {
-    font-size: 3.6rem !important; /* 60% of 6rem */
+    font-size: 3rem !important; /* 50% of 6rem */
   }
 
   h2 {
-    font-size: 2.4rem !important;
+    font-size: 2rem !important;
   }
 
   h3 {
-    font-size: 1.8rem !important;
+    font-size: 1.5rem !important;
   }
 
   h4 {
-    font-size: 1.5rem !important;
+    font-size: 1.25rem !important;
   }
 
   /* Scale down color blocks for tablets */
   .color-block {
-    width: 72px !important; /* 60% of 120px */
-    height: 72px !important;
+    width: 60px !important; /* 50% of 120px */
+    height: 60px !important;
     border-width: 2px !important;
   }
 
   /* Scale down color labels for tablets */
   .color-label {
-    font-size: 1.8rem !important; /* 60% of 3rem */
-    padding: 6px 12px !important;
+    font-size: 1.5rem !important; /* 50% of 3rem */
+    padding: 5px 10px !important;
     border-width: 2px !important;
   }
 
   /* Scale down floating messages */
   .match-message {
-    font-size: 1.2rem !important;
-    padding: 12px 24px !important;
+    font-size: 1rem !important;
+    padding: 10px 20px !important;
   }
 
   .victory-message {
-    font-size: 1.8rem !important;
-    padding: 18px 30px !important;
+    font-size: 1.5rem !important;
+    padding: 15px 25px !important;
   }
 
   /* Adjust settings buttons for tablets */
   .settings-button {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 16px !important;
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 14px !important;
   }
 }
 
@@ -1195,67 +1195,67 @@ h4 {
   }
 }
 
-/* iPhone / Small Phone Screens (< 768px) - Scale to 30% (between 1/4 and 1/3) */
+/* iPhone / Small Phone Screens (< 768px) - Scale to 40% */
 @media screen and (max-width: 767px) {
   /* Scale down emoji size for phones */
   h1 {
-    font-size: 1.8rem !important; /* 30% of 6rem */
+    font-size: 2.4rem !important; /* 40% of 6rem */
   }
 
   h2 {
-    font-size: 1.2rem !important;
+    font-size: 1.6rem !important;
   }
 
   h3 {
-    font-size: 1rem !important;
+    font-size: 1.3rem !important;
   }
 
   h4 {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
   }
 
   /* Scale down color blocks for phones */
   .color-block {
-    width: 36px !important; /* 30% of 120px */
-    height: 36px !important;
+    width: 48px !important; /* 40% of 120px */
+    height: 48px !important;
     border-width: 2px !important;
   }
 
   /* Scale down color labels for phones */
   .color-label {
-    font-size: 0.9rem !important; /* 30% of 3rem */
-    padding: 3px 6px !important;
-    border-width: 1.5px !important;
+    font-size: 1.2rem !important; /* 40% of 3rem */
+    padding: 4px 8px !important;
+    border-width: 2px !important;
   }
 
   /* Scale down floating messages */
   .match-message {
-    font-size: 1rem !important;
-    padding: 9px 18px !important;
-    max-width: 80vw !important;
+    font-size: 1.1rem !important;
+    padding: 10px 20px !important;
+    max-width: 85vw !important;
   }
 
   .victory-message {
-    font-size: 1.5rem !important;
-    padding: 15px 25px !important;
+    font-size: 1.6rem !important;
+    padding: 16px 28px !important;
     max-width: 90vw !important;
   }
 
   /* Adjust settings buttons for phones */
   .settings-button {
-    width: 28px !important;
-    height: 28px !important;
-    font-size: 14px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
   }
 
   .settings-container {
-    top: 8px !important;
-    right: 8px !important;
-    gap: 8px !important;
+    top: 10px !important;
+    right: 10px !important;
+    gap: 10px !important;
   }
 
   /* Reduce padding on body for more space */
   body {
-    padding: 25px 12px !important;
+    padding: 30px 15px !important;
   }
 }

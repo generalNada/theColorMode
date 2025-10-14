@@ -127,24 +127,21 @@ The game supports separate victory songs for each mode!
 
 **Currently configured:**
 
-- `victory-song.mp3` - Plays when you win in Emoji Mode ✅ (you already have this!)
-- `victory-song-color.mp3` - Plays when you win in Color Mode ⚠️ (add this file!)
+- `victory-song.mp3` - Plays when you win in Emoji Mode ✅
+- `victory-song-color.mp3` - Plays when you win in Color Mode ✅
 
-**To add the Color Mode victory song:**
+**To customize victory songs:**
 
-1. Find or create an MP3 file you want to use for Color Mode victories
-2. Name it `victory-song-color.mp3`
-3. Place it in the same directory as `index.html`
-4. Done! The game will automatically play it when you win in Color Mode
+1. Replace `victory-song.mp3` for Emoji Mode or `victory-song-color.mp3` for Color Mode
+2. Keep the same file names, or update the paths in `script.js` (search for `initVictorySongs()`)
+3. The game will automatically play the appropriate song when you win!
 
 **Tips:**
 
 - Keep songs under 30 seconds for best experience
 - Volume is set to 60% by default (adjustable in `script.js`)
-- Songs work on all devices (iOS requires user interaction first)
+- Songs work on all devices (iOS requires user interaction first - **now silently unlocked!**)
 - If a song file is missing, the game gracefully continues without it
-
-You can also customize the file paths in `script.js` (search for `initVictorySongs()`).
 
 ## 📱 Device Compatibility & Responsive Design
 
@@ -156,16 +153,16 @@ You can also customize the file paths in `script.js` (search for `initVictorySon
 
 ### 📱 iPad / Tablets (768px - 1024px)
 
-- **60% scaling** (between 1/2 and 2/3 size)
-- Emojis: 3.6rem
-- Color blocks: 72px
+- **50% scaling** (half size - perfect for tablets!)
+- Emojis: 3rem
+- Color blocks: 60px
 - Optimized touch targets and spacing
 
 ### 📱 iPhone / Small Screens (< 768px)
 
-- **30% scaling** (between 1/4 and 1/3 size)
-- Emojis: 1.8rem
-- Color blocks: 36px
+- **40% scaling** (larger and easier to see!)
+- Emojis: 2.4rem
+- Color blocks: 48px
 - Compact menu and controls
 - Maximum screen space for gameplay
 
