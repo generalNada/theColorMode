@@ -224,9 +224,10 @@ class LetterExplosion {
     // Track positioned elements to prevent overlap
     this.positionedElements = [];
 
-    // Victory song audio element
-    this.victorySong = null;
-    this.initVictorySong();
+    // Victory song audio elements - separate songs for emoji and color modes
+    this.victorySongEmoji = null;
+    this.victorySongColor = null;
+    this.initVictorySongs();
 
     this.init();
   }
@@ -240,54 +241,87 @@ class LetterExplosion {
     }
   }
 
-  initVictorySong() {
-    // Create audio element for victory song
-    // You can replace 'victory-song.mp3' with your own MP3 file path
-    // Or use a URL: 'https://example.com/your-song.mp3'
+  initVictorySongs() {
+    // Create audio elements for victory songs
+    // Separate songs for emoji and color modes!
 
-    const songPath = "victory-song.mp3"; // <<< PUT YOUR MP3 FILE HERE
+    // Emoji mode victory song
+    const emojiSongPath = "victory-song.mp3"; // <<< PUT YOUR EMOJI MODE MP3 FILE HERE
+    this.victorySongEmoji = new Audio(emojiSongPath);
+    this.victorySongEmoji.volume = 0.6;
+    this.victorySongEmoji.preload = "auto";
 
-    this.victorySong = new Audio(songPath);
-    this.victorySong.volume = 0.6; // Adjust volume (0.0 to 1.0)
-    this.victorySong.preload = "auto";
+    // Color mode victory song
+    const colorSongPath = "victory-song-color.mp3"; // <<< PUT YOUR COLOR MODE MP3 FILE HERE
+    this.victorySongColor = new Audio(colorSongPath);
+    this.victorySongColor.volume = 0.6;
+    this.victorySongColor.preload = "auto";
+
     this.victorySongUnlocked = false;
 
-    // Handle errors gracefully if file doesn't exist
-    this.victorySong.addEventListener("error", (e) => {
+    // Handle errors gracefully for emoji song
+    this.victorySongEmoji.addEventListener("error", (e) => {
       console.log(
-        "Victory song not found. To add a victory song:",
+        "Emoji victory song not found. To add a victory song:",
         "\n1. Add an MP3 file named 'victory-song.mp3' to your project folder",
-        "\n2. Or update the 'songPath' in initVictorySong() to point to your MP3"
+        "\n2. Or update the 'emojiSongPath' in initVictorySongs() to point to your MP3"
       );
-      this.victorySong = null; // Disable if file not found
+      this.victorySongEmoji = null;
+    });
+
+    // Handle errors gracefully for color song
+    this.victorySongColor.addEventListener("error", (e) => {
+      console.log(
+        "Color victory song not found. To add a color mode victory song:",
+        "\n1. Add an MP3 file named 'victory-song-color.mp3' to your project folder",
+        "\n2. Or update the 'colorSongPath' in initVictorySongs() to point to your MP3"
+      );
+      this.victorySongColor = null;
     });
 
     // iOS audio unlock - play silent audio on first user interaction
     this.unlockVictorySongAudio();
 
-    console.log("🎵 Victory song ready:", songPath);
+    console.log("🎵 Victory songs ready:", emojiSongPath, "and", colorSongPath);
   }
 
   unlockVictorySongAudio() {
-    if (!this.victorySong) return;
-
     const unlockAudio = () => {
       if (this.victorySongUnlocked) return;
 
-      // Play and immediately pause to unlock audio on iOS
-      const playPromise = this.victorySong.play();
-      if (playPromise !== undefined) {
-        playPromise
+      // Play and immediately pause both songs to unlock audio on iOS
+      const unlockPromises = [];
+
+      if (this.victorySongEmoji) {
+        const emojiPromise = this.victorySongEmoji
+          .play()
           .then(() => {
-            this.victorySong.pause();
-            this.victorySong.currentTime = 0;
-            this.victorySongUnlocked = true;
-            console.log("✓ Victory song audio unlocked for iOS");
+            this.victorySongEmoji.pause();
+            this.victorySongEmoji.currentTime = 0;
           })
           .catch((e) => {
-            console.log("Victory song unlock attempt:", e.message);
+            console.log("Emoji victory song unlock attempt:", e.message);
           });
+        unlockPromises.push(emojiPromise);
       }
+
+      if (this.victorySongColor) {
+        const colorPromise = this.victorySongColor
+          .play()
+          .then(() => {
+            this.victorySongColor.pause();
+            this.victorySongColor.currentTime = 0;
+          })
+          .catch((e) => {
+            console.log("Color victory song unlock attempt:", e.message);
+          });
+        unlockPromises.push(colorPromise);
+      }
+
+      Promise.all(unlockPromises).then(() => {
+        this.victorySongUnlocked = true;
+        console.log("✓ Victory song audio unlocked for iOS");
+      });
     };
 
     // Listen for first user interaction to unlock audio
@@ -368,8 +402,8 @@ class LetterExplosion {
     // Start subtle background animations
     this.startSubtleAnimations();
 
-    // Create settings toggle buttons
-    this.createSettingsButtons();
+    // Create hamburger menu
+    this.createHamburgerMenu();
 
     // Unlock audio on first user interaction (iOS requirement)
     this.setupAudioUnlock();
@@ -535,187 +569,235 @@ class LetterExplosion {
     console.log(`✅ ${newMode} mode ready!`);
   }
 
-  createSettingsButtons() {
-    // Container for settings buttons
-    const settingsContainer = document.createElement("div");
-    settingsContainer.className = "settings-container";
-    settingsContainer.style.cssText = `
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 8px;
-      z-index: 10001;
-      user-select: none;
-      -webkit-user-select: none;
-      -webkit-touch-callout: none;
+  createHamburgerMenu() {
+    // Create hamburger button container
+    const hamburgerContainer = document.createElement("div");
+    hamburgerContainer.className = "hamburger-container";
+
+    // Create hamburger button
+    const hamburgerButton = document.createElement("button");
+    hamburgerButton.className = "hamburger-button";
+    hamburgerButton.innerHTML = `
+      <span></span>
+      <span></span>
+      <span></span>
     `;
+    hamburgerButton.setAttribute("aria-label", "Menu");
 
-    // Mode Toggle button
-    const modeButton = document.createElement("button");
-    modeButton.className = "settings-button";
-    modeButton.innerHTML = this.currentMode === "emoji" ? "🎨" : "😀";
-    modeButton.title =
-      this.currentMode === "emoji"
-        ? "Switch to Color Mode"
-        : "Switch to Emoji Mode";
-    modeButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      cursor: pointer;
-      opacity: 0.4;
-      transition: opacity 0.2s ease, transform 0.1s ease;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `;
+    // Create menu panel
+    const menuPanel = document.createElement("div");
+    menuPanel.className = "menu-panel";
 
-    modeButton.addEventListener("mouseenter", () => {
-      modeButton.style.opacity = "0.8";
-      modeButton.style.transform = "scale(1.1)";
-    });
+    // Menu title
+    const menuTitle = document.createElement("h2");
+    menuTitle.className = "menu-title";
+    menuTitle.textContent = "Game Controls";
+    menuPanel.appendChild(menuTitle);
 
-    modeButton.addEventListener("mouseleave", () => {
-      modeButton.style.opacity = "0.4";
-      modeButton.style.transform = "scale(1)";
-    });
+    // Game Modes Section
+    const modesSection = document.createElement("div");
+    modesSection.className = "menu-section";
 
-    modeButton.addEventListener("click", () => {
-      const newMode = this.currentMode === "emoji" ? "color" : "emoji";
-      this.switchMode(newMode);
-      modeButton.innerHTML = this.currentMode === "emoji" ? "🎨" : "😀";
-      modeButton.title =
+    const modesSectionTitle = document.createElement("h3");
+    modesSectionTitle.className = "menu-section-title";
+    modesSectionTitle.textContent = "Game Modes";
+    modesSection.appendChild(modesSectionTitle);
+
+    // Switch Mode Item
+    const switchModeItem = this.createMenuItem({
+      icon: this.currentMode === "emoji" ? "🎨" : "😀",
+      label: this.currentMode === "emoji" ? "Color Mode" : "Emoji Mode",
+      description:
         this.currentMode === "emoji"
-          ? "Switch to Color Mode"
-          : "Switch to Emoji Mode";
-      this.playSound("toggle");
+          ? "Switch to matching colors with their names. Each color has a unique shade and label to match!"
+          : "Switch to matching fun emoji pairs. Find planets, animals, sports, and space objects!",
+      onClick: () => {
+        const newMode = this.currentMode === "emoji" ? "color" : "emoji";
+        this.switchMode(newMode);
+        // Update the icon and description
+        const icon = switchModeItem.querySelector(".menu-item-icon");
+        const label = switchModeItem.querySelector(".menu-item-label");
+        const desc = switchModeItem.querySelector(".menu-item-description");
+        icon.textContent = this.currentMode === "emoji" ? "🎨" : "😀";
+        label.textContent =
+          this.currentMode === "emoji" ? "Color Mode" : "Emoji Mode";
+        desc.textContent =
+          this.currentMode === "emoji"
+            ? "Switch to matching colors with their names. Each color has a unique shade and label to match!"
+            : "Switch to matching fun emoji pairs. Find planets, animals, sports, and space objects!";
+        this.playSound("toggle");
+      },
     });
+    modesSection.appendChild(switchModeItem);
 
-    // New Game button
-    const newGameButton = document.createElement("button");
-    newGameButton.className = "settings-button";
-    newGameButton.innerHTML = "🔄";
-    newGameButton.title = "New Game";
-    newGameButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      cursor: pointer;
-      opacity: 0.4;
-      transition: opacity 0.2s ease, transform 0.1s ease;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `;
-
-    newGameButton.addEventListener("mouseenter", () => {
-      newGameButton.style.opacity = "0.8";
-      newGameButton.style.transform = "scale(1.1)";
+    // New Game Item
+    const newGameItem = this.createMenuItem({
+      icon: "🔄",
+      label: "New Game",
+      description:
+        "Start a fresh game with all elements randomly repositioned. Your progress will be reset!",
+      onClick: () => {
+        this.resetGame();
+        this.playSound("toggle");
+        this.closeMenu(hamburgerButton, menuPanel);
+      },
     });
+    modesSection.appendChild(newGameItem);
 
-    newGameButton.addEventListener("mouseleave", () => {
-      newGameButton.style.opacity = "0.4";
-      newGameButton.style.transform = "scale(1)";
+    menuPanel.appendChild(modesSection);
+
+    // Audio Settings Section
+    const audioSection = document.createElement("div");
+    audioSection.className = "menu-section";
+
+    const audioSectionTitle = document.createElement("h3");
+    audioSectionTitle.className = "menu-section-title";
+    audioSectionTitle.textContent = "Audio Settings";
+    audioSection.appendChild(audioSectionTitle);
+
+    // Sound Toggle Item
+    const soundItem = this.createMenuItem({
+      icon: this.settings.soundEnabled ? "🔊" : "🔇",
+      label: "Sound Effects",
+      description: this.settings.soundEnabled
+        ? "Sound effects are ON. Click to turn off beeps, pops, and explosions."
+        : "Sound effects are OFF. Click to hear beeps, pops, and explosions when you match!",
+      onClick: () => {
+        this.settings.soundEnabled = !this.settings.soundEnabled;
+        localStorage.setItem("soundEnabled", this.settings.soundEnabled);
+        const icon = soundItem.querySelector(".menu-item-icon");
+        const desc = soundItem.querySelector(".menu-item-description");
+        icon.textContent = this.settings.soundEnabled ? "🔊" : "🔇";
+        desc.textContent = this.settings.soundEnabled
+          ? "Sound effects are ON. Click to turn off beeps, pops, and explosions."
+          : "Sound effects are OFF. Click to hear beeps, pops, and explosions when you match!";
+        this.playSound("toggle");
+      },
     });
+    audioSection.appendChild(soundItem);
 
-    newGameButton.addEventListener("click", () => {
-      this.resetGame();
-      this.playSound("toggle");
+    // Voice Toggle Item
+    const voiceItem = this.createMenuItem({
+      icon: this.settings.speechEnabled ? "🗣️" : "🔇",
+      label: "Voice Announcements",
+      description: this.settings.speechEnabled
+        ? "Voice is ON. The game will speak match messages and celebrate your wins!"
+        : "Voice is OFF. Click to enable spoken celebrations and match announcements.",
+      onClick: () => {
+        this.settings.speechEnabled = !this.settings.speechEnabled;
+        localStorage.setItem("speechEnabled", this.settings.speechEnabled);
+        const icon = voiceItem.querySelector(".menu-item-icon");
+        const desc = voiceItem.querySelector(".menu-item-description");
+        icon.textContent = this.settings.speechEnabled ? "🗣️" : "🔇";
+        desc.textContent = this.settings.speechEnabled
+          ? "Voice is ON. The game will speak match messages and celebrate your wins!"
+          : "Voice is OFF. Click to enable spoken celebrations and match announcements.";
+        this.playSound("toggle");
+        if (this.settings.speechEnabled) {
+          this.speak("Voice enabled!");
+        }
+      },
     });
+    audioSection.appendChild(voiceItem);
 
-    // Sound toggle button
-    const soundButton = document.createElement("button");
-    soundButton.className = "settings-button";
-    soundButton.innerHTML = this.settings.soundEnabled ? "🔊" : "🔇";
-    soundButton.title = "Toggle Sound";
-    soundButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      cursor: pointer;
-      opacity: 0.4;
-      transition: opacity 0.2s ease, transform 0.1s ease;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `;
+    menuPanel.appendChild(audioSection);
 
-    soundButton.addEventListener("mouseenter", () => {
-      soundButton.style.opacity = "0.8";
-      soundButton.style.transform = "scale(1.1)";
+    // How to Play Section
+    const helpSection = document.createElement("div");
+    helpSection.className = "menu-section";
+
+    const helpSectionTitle = document.createElement("h3");
+    helpSectionTitle.className = "menu-section-title";
+    helpSectionTitle.textContent = "How to Play";
+    helpSection.appendChild(helpSectionTitle);
+
+    const howToPlayItem = this.createMenuItem({
+      icon: "❓",
+      label: "Game Instructions",
+      description:
+        "Tap or click to select an item, then tap another to match. Drag items to move them around. Double-click empty space to change background colors!",
+      onClick: null, // Non-clickable info item
     });
+    helpSection.appendChild(howToPlayItem);
 
-    soundButton.addEventListener("mouseleave", () => {
-      soundButton.style.opacity = "0.4";
-      soundButton.style.transform = "scale(1)";
-    });
+    menuPanel.appendChild(helpSection);
 
-    soundButton.addEventListener("click", () => {
-      this.settings.soundEnabled = !this.settings.soundEnabled;
-      localStorage.setItem("soundEnabled", this.settings.soundEnabled);
-      soundButton.innerHTML = this.settings.soundEnabled ? "🔊" : "🔇";
-      this.playSound("toggle");
-    });
-
-    // Speech toggle button
-    const speechButton = document.createElement("button");
-    speechButton.className = "settings-button";
-    speechButton.innerHTML = this.settings.speechEnabled ? "🗣️" : "🔇";
-    speechButton.title = "Toggle Voice";
-    speechButton.style.cssText = `
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      width: 32px;
-      height: 32px;
-      font-size: 16px;
-      cursor: pointer;
-      opacity: 0.4;
-      transition: opacity 0.2s ease, transform 0.1s ease;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `;
-
-    speechButton.addEventListener("mouseenter", () => {
-      speechButton.style.opacity = "0.8";
-      speechButton.style.transform = "scale(1.1)";
-    });
-
-    speechButton.addEventListener("mouseleave", () => {
-      speechButton.style.opacity = "0.4";
-      speechButton.style.transform = "scale(1)";
-    });
-
-    speechButton.addEventListener("click", () => {
-      this.settings.speechEnabled = !this.settings.speechEnabled;
-      localStorage.setItem("speechEnabled", this.settings.speechEnabled);
-      speechButton.innerHTML = this.settings.speechEnabled ? "🗣️" : "🔇";
-      this.playSound("toggle");
-      if (this.settings.speechEnabled) {
-        this.speak("Voice enabled!");
+    // Toggle menu
+    hamburgerButton.addEventListener("click", () => {
+      const isOpen = menuPanel.classList.contains("open");
+      if (isOpen) {
+        this.closeMenu(hamburgerButton, menuPanel);
+      } else {
+        this.openMenu(hamburgerButton, menuPanel);
       }
     });
 
-    settingsContainer.appendChild(modeButton);
-    settingsContainer.appendChild(newGameButton);
-    settingsContainer.appendChild(soundButton);
-    settingsContainer.appendChild(speechButton);
-    document.body.appendChild(settingsContainer);
+    // Close menu when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        !hamburgerContainer.contains(e.target) &&
+        !menuPanel.contains(e.target) &&
+        menuPanel.classList.contains("open")
+      ) {
+        this.closeMenu(hamburgerButton, menuPanel);
+      }
+    });
+
+    hamburgerContainer.appendChild(hamburgerButton);
+    document.body.appendChild(hamburgerContainer);
+    document.body.appendChild(menuPanel);
+  }
+
+  createMenuItem({ icon, label, description, onClick }) {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+    if (!onClick) {
+      item.style.cursor = "default";
+    }
+
+    const header = document.createElement("div");
+    header.className = "menu-item-header";
+
+    const iconEl = document.createElement("div");
+    iconEl.className = "menu-item-icon";
+    iconEl.textContent = icon;
+
+    const labelEl = document.createElement("div");
+    labelEl.className = "menu-item-label";
+    labelEl.textContent = label;
+
+    header.appendChild(iconEl);
+    header.appendChild(labelEl);
+
+    const desc = document.createElement("div");
+    desc.className = "menu-item-description";
+    desc.textContent = description;
+
+    item.appendChild(header);
+    item.appendChild(desc);
+
+    if (onClick) {
+      item.addEventListener("click", onClick);
+    } else {
+      item.addEventListener("mouseenter", () => {
+        item.style.background = "rgba(255, 255, 255, 0.1)";
+        item.style.transform = "translateX(0)";
+      });
+    }
+
+    return item;
+  }
+
+  openMenu(button, panel) {
+    button.classList.add("open");
+    panel.classList.add("open");
+    this.playSound("toggle");
+  }
+
+  closeMenu(button, panel) {
+    button.classList.remove("open");
+    panel.classList.remove("open");
+    this.playSound("toggle");
   }
 
   // Haptic feedback removed
@@ -1350,19 +1432,32 @@ class LetterExplosion {
 
   playVictorySong() {
     if (!this.settings.soundEnabled) return;
-    if (!this.victorySong) return;
 
-    // Stop any currently playing song and restart from beginning
-    this.victorySong.pause();
-    this.victorySong.currentTime = 0;
+    // Choose the right song based on current mode
+    const victorySong =
+      this.currentMode === "emoji"
+        ? this.victorySongEmoji
+        : this.victorySongColor;
 
-    // Play the song
-    const playPromise = this.victorySong.play();
+    if (!victorySong) return;
+
+    // Stop any currently playing songs and restart from beginning
+    if (this.victorySongEmoji) {
+      this.victorySongEmoji.pause();
+      this.victorySongEmoji.currentTime = 0;
+    }
+    if (this.victorySongColor) {
+      this.victorySongColor.pause();
+      this.victorySongColor.currentTime = 0;
+    }
+
+    // Play the appropriate song for the current mode
+    const playPromise = victorySong.play();
 
     if (playPromise !== undefined) {
       playPromise
         .then(() => {
-          console.log("🎵 Playing victory song!");
+          console.log(`🎵 Playing ${this.currentMode} mode victory song!`);
         })
         .catch((error) => {
           console.log(
@@ -1376,7 +1471,7 @@ class LetterExplosion {
           // Try to unlock and play again after a moment
           setTimeout(() => {
             if (!this.victorySongUnlocked) {
-              const retryPromise = this.victorySong.play();
+              const retryPromise = victorySong.play();
               if (retryPromise !== undefined) {
                 retryPromise
                   .then(() => {

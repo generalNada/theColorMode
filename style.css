@@ -939,3 +939,323 @@ h4 {
 .color-label .letter.reforming {
   animation: reform 0.8s ease-out forwards;
 }
+
+/* ========================================
+   RESPONSIVE DESIGN FOR MOBILE DEVICES
+   ======================================== */
+
+/* iPad / Tablet Screens (768px - 1024px) - Scale to 60% (between 1/2 and 2/3) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  /* Scale down emoji size for tablets */
+  h1 {
+    font-size: 3.6rem !important; /* 60% of 6rem */
+  }
+
+  h2 {
+    font-size: 2.4rem !important;
+  }
+
+  h3 {
+    font-size: 1.8rem !important;
+  }
+
+  h4 {
+    font-size: 1.5rem !important;
+  }
+
+  /* Scale down color blocks for tablets */
+  .color-block {
+    width: 72px !important; /* 60% of 120px */
+    height: 72px !important;
+    border-width: 2px !important;
+  }
+
+  /* Scale down color labels for tablets */
+  .color-label {
+    font-size: 1.8rem !important; /* 60% of 3rem */
+    padding: 6px 12px !important;
+    border-width: 2px !important;
+  }
+
+  /* Scale down floating messages */
+  .match-message {
+    font-size: 1.2rem !important;
+    padding: 12px 24px !important;
+  }
+
+  .victory-message {
+    font-size: 1.8rem !important;
+    padding: 18px 30px !important;
+  }
+
+  /* Adjust settings buttons for tablets */
+  .settings-button {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* ========================================
+   HAMBURGER MENU STYLES
+   ======================================== */
+
+/* Hamburger button container */
+.hamburger-container {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 10002;
+}
+
+/* Hamburger button */
+.hamburger-button {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hamburger-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
+}
+
+.hamburger-button span {
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Hamburger animation when open */
+.hamburger-button.open span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+}
+
+.hamburger-button.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-button.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* Menu panel */
+.menu-panel {
+  position: fixed;
+  top: 80px;
+  right: 15px;
+  background: rgba(30, 20, 60, 0.95);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  width: 320px;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transform: translateX(400px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  z-index: 10001;
+}
+
+.menu-panel.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Menu title */
+.menu-title {
+  font-family: "Bangers", system-ui;
+  font-size: 1.8rem;
+  color: white;
+  margin: 0 0 20px 0;
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Menu sections */
+.menu-section {
+  margin-bottom: 20px;
+}
+
+.menu-section-title {
+  font-family: "Bangers", system-ui;
+  font-size: 1.2rem;
+  color: #4ecdc4;
+  margin: 0 0 12px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Menu item */
+.menu-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(-5px);
+}
+
+.menu-item-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.menu-item-icon {
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.menu-item-label {
+  font-family: "Roboto Slab", serif;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  flex: 1;
+}
+
+.menu-item-description {
+  font-family: "Roboto Slab", serif;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+  padding-left: 48px;
+}
+
+/* Responsive menu styles */
+@media screen and (max-width: 767px) {
+  .hamburger-container {
+    top: 10px;
+    right: 10px;
+  }
+
+  .hamburger-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .menu-panel {
+    top: 70px;
+    right: 10px;
+    width: 280px;
+    padding: 16px;
+  }
+
+  .menu-title {
+    font-size: 1.5rem;
+  }
+
+  .menu-section-title {
+    font-size: 1rem;
+  }
+
+  .menu-item-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 1.3rem;
+  }
+
+  .menu-item-description {
+    font-size: 0.8rem;
+    padding-left: 44px;
+  }
+}
+
+/* iPhone / Small Phone Screens (< 768px) - Scale to 30% (between 1/4 and 1/3) */
+@media screen and (max-width: 767px) {
+  /* Scale down emoji size for phones */
+  h1 {
+    font-size: 1.8rem !important; /* 30% of 6rem */
+  }
+
+  h2 {
+    font-size: 1.2rem !important;
+  }
+
+  h3 {
+    font-size: 1rem !important;
+  }
+
+  h4 {
+    font-size: 0.9rem !important;
+  }
+
+  /* Scale down color blocks for phones */
+  .color-block {
+    width: 36px !important; /* 30% of 120px */
+    height: 36px !important;
+    border-width: 2px !important;
+  }
+
+  /* Scale down color labels for phones */
+  .color-label {
+    font-size: 0.9rem !important; /* 30% of 3rem */
+    padding: 3px 6px !important;
+    border-width: 1.5px !important;
+  }
+
+  /* Scale down floating messages */
+  .match-message {
+    font-size: 1rem !important;
+    padding: 9px 18px !important;
+    max-width: 80vw !important;
+  }
+
+  .victory-message {
+    font-size: 1.5rem !important;
+    padding: 15px 25px !important;
+    max-width: 90vw !important;
+  }
+
+  /* Adjust settings buttons for phones */
+  .settings-button {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 14px !important;
+  }
+
+  .settings-container {
+    top: 8px !important;
+    right: 8px !important;
+    gap: 8px !important;
+  }
+
+  /* Reduce padding on body for more space */
+  body {
+    padding: 25px 12px !important;
+  }
+}

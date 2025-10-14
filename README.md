@@ -17,9 +17,22 @@ An interactive matching game with two modes: Emoji Mode and Color Mode! Features
 - Same explosive effects and celebration messages
 - Color blocks and labels stay perfectly horizontal (no rotation) for clean, easy reading
 
-**Switch between modes** using the 🎨/😀 button in the top-right corner!
+**Switch between modes** using the hamburger menu in the top-right corner!
 
 ## ✨ Features
+
+### 🍔 Hamburger Menu
+
+All game controls are now tucked away in a beautiful, sliding hamburger menu! No more UI clutter - just pure gameplay.
+
+**What's in the menu:**
+
+- **Game Modes**: Switch between Emoji and Color modes with full explanations
+- **New Game**: Start fresh with one click
+- **Audio Settings**: Toggle sound effects and voice announcements
+- **How to Play**: Quick instructions right when you need them
+
+Each menu item includes a detailed description of what it does - perfect for new players!
 
 ### 🎯 Matching Game
 
@@ -43,7 +56,7 @@ An interactive matching game with two modes: Emoji Mode and Color Mode! Features
 - Random positioning on each page load
 - Victory confetti celebration when you complete the game
 
-### 🔊 Sound Effects
+### 🔊 Sound Effects & Music
 
 - **Select sound**: Soft click when selecting an emoji
 - **Match sound**: Satisfying "pop" when you find a pair
@@ -51,14 +64,22 @@ An interactive matching game with two modes: Emoji Mode and Color Mode! Features
 - **Explosion sound**: Soft whoosh for matched pairs
 - **Victory fanfare**: Triumphant celebration when you win
 - **Background sound**: Ambient tone for color explosions
-- **Toggle button** (🔊/🔇) in the top-right to enable/disable sounds
+- **Victory songs**: Separate MP3 songs play for Emoji Mode and Color Mode victories! 🎵
+  - `victory-song.mp3` plays when you win in Emoji Mode
+  - `victory-song-color.mp3` plays when you win in Color Mode
+- **Toggle in menu**: Enable/disable sounds and voice in the hamburger menu
 
-### 🎮 Game Controls
+### 🎮 Game Controls (All in Hamburger Menu!)
+
+Click the hamburger button (☰) in the top-right corner to access:
 
 - **🎨/😀 Mode Toggle**: Switch between Emoji Mode and Color Mode (saved to browser storage)
 - **🔄 New Game**: Resets the game, brings back all elements, and randomizes positions
-- **🔊 Sound**: Toggle sound on/off (saved to browser storage)
-- **🗣️ Voice**: Toggle voice messages on/off (saved to browser storage)
+- **🔊 Sound**: Toggle sound effects on/off (saved to browser storage)
+- **🗣️ Voice**: Toggle voice announcements on/off (saved to browser storage)
+- **❓ How to Play**: Quick instructions and tips
+
+Each control has a full explanation in the menu so you always know what it does!
 
 ## 🛠️ How to Add More Emoji Pairs
 
@@ -100,13 +121,61 @@ this.colorMatchMessages = {
 
 The game will automatically create color blocks and labels for all colors in `colorDefinitions`!
 
-## 📱 Device Compatibility
+## 🎵 Adding Victory Songs
 
-- Works on desktop (Chrome, Safari, Firefox, Edge)
-- Fully responsive on mobile and tablets
-- iOS-optimized touch handling for smooth tapping
-- iOS audio unlocking for sound effects
+The game supports separate victory songs for each mode!
+
+**Currently configured:**
+
+- `victory-song.mp3` - Plays when you win in Emoji Mode ✅ (you already have this!)
+- `victory-song-color.mp3` - Plays when you win in Color Mode ⚠️ (add this file!)
+
+**To add the Color Mode victory song:**
+
+1. Find or create an MP3 file you want to use for Color Mode victories
+2. Name it `victory-song-color.mp3`
+3. Place it in the same directory as `index.html`
+4. Done! The game will automatically play it when you win in Color Mode
+
+**Tips:**
+
+- Keep songs under 30 seconds for best experience
+- Volume is set to 60% by default (adjustable in `script.js`)
+- Songs work on all devices (iOS requires user interaction first)
+- If a song file is missing, the game gracefully continues without it
+
+You can also customize the file paths in `script.js` (search for `initVictorySongs()`).
+
+## 📱 Device Compatibility & Responsive Design
+
+### 🖥️ Desktop
+
+- Works on all modern browsers (Chrome, Safari, Firefox, Edge)
+- Full-size emojis (6rem) and color blocks (120px)
+- Smooth animations and effects
+
+### 📱 iPad / Tablets (768px - 1024px)
+
+- **60% scaling** (between 1/2 and 2/3 size)
+- Emojis: 3.6rem
+- Color blocks: 72px
+- Optimized touch targets and spacing
+
+### 📱 iPhone / Small Screens (< 768px)
+
+- **30% scaling** (between 1/4 and 1/3 size)
+- Emojis: 1.8rem
+- Color blocks: 36px
+- Compact menu and controls
+- Maximum screen space for gameplay
+
+### ✨ iOS Optimizations
+
+- Touch-optimized for smooth tapping and dragging
+- iOS audio unlocking for sound effects and victory songs
 - Prevents text selection and iOS callout menus
+- Hardware-accelerated animations
+- Backdrop blur effects on the menu
 
 ## 🎨 Customization
 
