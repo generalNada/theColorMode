@@ -30,6 +30,7 @@ class LetterExplosion {
         "Outta This World!",
         "Planetary Perfection Achieved!",
         "You just orbited a match!",
+        "There IS Life On Mars!!",
       ],
       dog: [
         "A Barking Success!",
@@ -39,10 +40,9 @@ class LetterExplosion {
         "Doggone Good Match!",
       ],
       moon: [
-        "That match is moonstruck!",
         "You've phased into success!",
-        "Lunar luck is shining!",
-        "Moonstruck Match!",
+        "Lunar Luck!",
+        "Moonstruck!",
         "Full Moon Fever!",
       ],
       sun: [
@@ -55,7 +55,7 @@ class LetterExplosion {
       sparkle: [
         "That was dazzling!",
         "Sparkle success!",
-        "Shining match, superstar!",
+        "Shining match superstar!",
         "Starstruck Match!",
         "My Shades Please!",
       ],
@@ -90,7 +90,7 @@ class LetterExplosion {
       ],
       giraffe: [
         "Neck and neck!",
-        "Tall win, champ!",
+        "Tall win champ!",
         "Sky-high score!",
         "You stand tall!",
         "Towering success!",
@@ -100,7 +100,9 @@ class LetterExplosion {
         "Racket Clap!",
         "No Bagels For You!",
         "Ad In!",
+        "Ad Out!",
         "Forty Love!",
+        "Ace!",
       ],
     };
 
@@ -488,20 +490,9 @@ class LetterExplosion {
     const menuPanel = document.createElement("div");
     menuPanel.className = "menu-panel";
 
-    // Menu title
-    // const menuTitle = document.createElement("h2");
-    // menuTitle.className = "menu-title";
-    // menuTitle.textContent = "Game Controls";
-    // menuPanel.appendChild(menuTitle);
-
     // Game Modes Section
     const modesSection = document.createElement("div");
     modesSection.className = "menu-section";
-
-    // const modesSectionTitle = document.createElement("h3");
-    // modesSectionTitle.className = "menu-section-title";
-    // modesSectionTitle.textContent = "Game Modes";
-    // modesSection.appendChild(modesSectionTitle);
 
     // Switch Mode Item
     const switchModeItem = this.createMenuItem({
@@ -549,11 +540,6 @@ class LetterExplosion {
     // Audio Settings Section
     const audioSection = document.createElement("div");
     audioSection.className = "menu-section";
-
-    // const audioSectionTitle = document.createElement("h3");
-    // audioSectionTitle.className = "menu-section-title";
-    // audioSectionTitle.textContent = "Audio Settings";
-    // audioSection.appendChild(audioSectionTitle);
 
     // Sound Toggle Item
     const soundItem = this.createMenuItem({
@@ -623,14 +609,23 @@ class LetterExplosion {
 
     menuPanel.appendChild(audioSection);
 
-    // How to Play Section
-    const helpSection = document.createElement("div");
-    helpSection.className = "menu-section";
+    // Utilities Section
+    const utilsSection = document.createElement("div");
+    utilsSection.className = "menu-section";
 
-    // const helpSectionTitle = document.createElement("h3");
-    // helpSectionTitle.className = "menu-section-title";
-    // helpSectionTitle.textContent = "How to Play";
-    // helpSection.appendChild(helpSectionTitle);
+    // Clear Stardust Item
+    const clearStardustItem = this.createMenuItem({
+      icon: "✨",
+      label: "Clear Stardust",
+      description:
+        "Remove all lingering stardust particles from the screen. They normally fade out after 4-5 minutes.",
+      onClick: () => {
+        this.clearAllStardust();
+        this.playSound("toggle");
+        this.closeMenu(hamburgerButton, menuPanel);
+      },
+    });
+    utilsSection.appendChild(clearStardustItem);
 
     const howToPlayItem = this.createMenuItem({
       icon: "❓",
@@ -639,9 +634,9 @@ class LetterExplosion {
         "Tap or click to select an item, then tap another to match. Drag items to move them around. Double-click empty space to change background colors!",
       onClick: null, // Non-clickable info item
     });
-    helpSection.appendChild(howToPlayItem);
+    utilsSection.appendChild(howToPlayItem);
 
-    menuPanel.appendChild(helpSection);
+    menuPanel.appendChild(utilsSection);
 
     // Toggle menu
     hamburgerButton.addEventListener("click", () => {
@@ -719,6 +714,24 @@ class LetterExplosion {
     button.classList.remove("open");
     panel.classList.remove("open");
     this.playSound("toggle");
+  }
+
+  clearAllStardust() {
+    // Find and remove all lingering stardust particles
+    const allStardust = document.querySelectorAll(".lingering-stardust");
+    allStardust.forEach((stardust) => {
+      if (stardust.parentNode) {
+        // Fade out smoothly before removing
+        stardust.style.transition = "opacity 0.5s ease-out";
+        stardust.style.opacity = "0";
+        setTimeout(() => {
+          if (stardust.parentNode) {
+            stardust.parentNode.removeChild(stardust);
+          }
+        }, 500);
+      }
+    });
+    console.log(`✨ Cleared ${allStardust.length} stardust particles`);
   }
 
   // Haptic feedback removed
@@ -2293,11 +2306,69 @@ class BackgroundEffects {
   }
 
   generateRandomDarkColor() {
-    // Generate dark colors (RGB values 0-120)
-    const r = Math.floor(Math.random() * 121);
-    const g = Math.floor(Math.random() * 121);
-    const b = Math.floor(Math.random() * 121);
-    return `rgb(${r}, ${g}, ${b})`;
+    // Generate extra dark colors with more variety
+    // Choose from different dark color palettes
+    const darkPalettes = [
+      // Very dark grays and blacks (0-50)
+      () => {
+        const shade = Math.floor(Math.random() * 51);
+        return `rgb(${shade}, ${shade}, ${shade})`;
+      },
+      // Dark blues (navy to midnight)
+      () => {
+        const r = Math.floor(Math.random() * 30);
+        const g = Math.floor(Math.random() * 40);
+        const b = Math.floor(Math.random() * 80);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark purples (deep purple to plum)
+      () => {
+        const r = Math.floor(Math.random() * 60);
+        const g = Math.floor(Math.random() * 30);
+        const b = Math.floor(Math.random() * 70);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark greens (forest to hunter)
+      () => {
+        const r = Math.floor(Math.random() * 30);
+        const g = Math.floor(Math.random() * 60);
+        const b = Math.floor(Math.random() * 40);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark reds (burgundy to wine)
+      () => {
+        const r = Math.floor(Math.random() * 70);
+        const g = Math.floor(Math.random() * 20);
+        const b = Math.floor(Math.random() * 30);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark browns (chocolate to coffee)
+      () => {
+        const r = Math.floor(Math.random() * 60) + 20;
+        const g = Math.floor(Math.random() * 40) + 10;
+        const b = Math.floor(Math.random() * 30);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark teals (deep teal to ocean)
+      () => {
+        const r = Math.floor(Math.random() * 25);
+        const g = Math.floor(Math.random() * 60);
+        const b = Math.floor(Math.random() * 70);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Mixed dark (any combination 0-80)
+      () => {
+        const r = Math.floor(Math.random() * 81);
+        const g = Math.floor(Math.random() * 81);
+        const b = Math.floor(Math.random() * 81);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+    ];
+
+    // Select random palette generator
+    const palette =
+      darkPalettes[Math.floor(Math.random() * darkPalettes.length)];
+    return palette();
   }
 
   generateRandomVibrantColor() {

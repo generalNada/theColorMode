@@ -75,6 +75,7 @@ Click the hamburger button (☰) in the top-right corner to access:
 - **🔊 Sound**: Toggle sound effects on/off (saved to browser storage)
 - **🗣️ Voice**: Toggle voice announcements on/off (saved to browser storage)
 - **🌙/🌞 Dark Mode**: Force all background colors to be dark, or allow any color (saved to browser storage)
+- **✨ Clear Stardust**: Instantly remove all lingering stardust particles from the screen
 - **❓ How to Play**: Quick instructions and tips
 
 Each control has a full explanation in the menu so you always know what it does!
@@ -126,10 +127,30 @@ Force all background colors to be dark with the Dark Mode toggle in the hamburge
 **How it works:**
 
 - When **Dark Mode is OFF** (default): Background can be any color - dark, vibrant, pastel, neon, earth tones, or jewel tones
-- When **Dark Mode is ON**: All background colors will be dark (RGB values 0-120) for a comfortable viewing experience
+- When **Dark Mode is ON**: All background colors will be extra dark (RGB values 0-80) with rich variety:
+  - Very dark grays and blacks (0-50)
+  - Dark blues (navy to midnight)
+  - Dark purples (deep purple to plum)
+  - Dark greens (forest to hunter green)
+  - Dark reds (burgundy to wine)
+  - Dark browns (chocolate to coffee)
+  - Dark teals (deep teal to ocean)
+  - Mixed dark shades for variety
 - Your preference is saved to browser storage
 
-Perfect for playing in low-light environments or if you prefer darker aesthetics!
+Perfect for playing in low-light environments, at night, or if you prefer darker aesthetics!
+
+## ✨ Stardust Management
+
+Lingering stardust particles add magic to your matches, but sometimes you want a clean screen!
+
+**How it works:**
+
+- Stardust automatically appears after every successful match
+- Particles twinkle and fade out naturally after 4-5 minutes
+- Use the **Clear Stardust** button in the hamburger menu to instantly remove all particles
+- Perfect for taking screenshots or if you prefer a cleaner look
+- Stardust has no effect on gameplay - it's purely decorative!
 
 ## 📱 Device Compatibility & Responsive Design
 
