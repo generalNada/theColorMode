@@ -237,6 +237,9 @@ class LetterExplosion {
     } else {
       this.setupElements();
     }
+
+    // Apply iPad-specific scaling as fallback
+    this.applyIPadScaling();
   }
 
   setupElements() {
@@ -914,6 +917,57 @@ class LetterExplosion {
     const b = Math.max(0, Math.min(255, base[2] + (Math.random() - 0.5) * 80));
 
     return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+  }
+
+  applyIPadScaling() {
+    // Detect iPad devices and apply scaling as fallback
+    const isIPad =
+      /iPad|Macintosh/.test(navigator.userAgent) && "ontouchend" in document;
+    const isTabletSize = window.innerWidth >= 768 && window.innerWidth <= 1024;
+
+    console.log("🔍 Device detection:", {
+      userAgent: navigator.userAgent,
+      isIPad,
+      isTabletSize,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight,
+    });
+
+    if (isIPad || isTabletSize) {
+      console.log("📱 iPad detected, applying scaling fallback");
+
+      // Apply scaling to all game elements
+      const style = document.createElement("style");
+      style.id = "ipad-scaling-fallback";
+      style.textContent = `
+        h1 { font-size: 1.5rem !important; }
+        h2 { font-size: 1rem !important; }
+        h3 { font-size: 0.75rem !important; }
+        h4 { font-size: 0.63rem !important; }
+        .color-block { 
+          width: 30px !important; 
+          height: 30px !important; 
+          border-width: 1.5px !important; 
+        }
+        .color-label { 
+          font-size: 0.75rem !important; 
+          padding: 2px 5px !important; 
+          border-width: 1px !important; 
+        }
+        .match-message { 
+          font-size: 0.85rem !important; 
+          padding: 8px 16px !important; 
+        }
+        .victory-message { 
+          font-size: 1.2rem !important; 
+          padding: 12px 20px !important; 
+        }
+        body { 
+          padding: 40px 25px !important; 
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
 
   // Haptic feedback removed

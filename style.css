@@ -976,7 +976,32 @@ h4 {
     padding: 2px 5px !important;
     border-width: 1px !important;
   }
+}
 
+/* Additional iPad-specific media query for better coverage */
+@media screen and (min-width: 810px) and (max-width: 1024px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  h2 {
+    font-size: 1rem !important;
+  }
+  h3 {
+    font-size: 0.75rem !important;
+  }
+  h4 {
+    font-size: 0.63rem !important;
+  }
+  .color-block {
+    width: 30px !important;
+    height: 30px !important;
+    border-width: 1.5px !important;
+  }
+  .color-label {
+    font-size: 0.75rem !important;
+    padding: 2px 5px !important;
+    border-width: 1px !important;
+  }
   /* Scale down floating messages */
   .match-message {
     font-size: 0.85rem !important;
@@ -998,6 +1023,32 @@ h4 {
   /* Increase padding to prevent collisions */
   body {
     padding: 40px 25px !important;
+  }
+}
+
+/* Force iPad scaling with higher specificity */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  body h1 {
+    font-size: 1.5rem !important;
+  }
+  body h2 {
+    font-size: 1rem !important;
+  }
+  body h3 {
+    font-size: 0.75rem !important;
+  }
+  body h4 {
+    font-size: 0.63rem !important;
+  }
+  body .color-block {
+    width: 30px !important;
+    height: 30px !important;
+    border-width: 1.5px !important;
+  }
+  body .color-label {
+    font-size: 0.75rem !important;
+    padding: 2px 5px !important;
+    border-width: 1px !important;
   }
 }
 
