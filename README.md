@@ -218,4 +218,4 @@ All game logic is in `script.js`:
 
 ---
 
-**Enjoy the game!** 🌟
+**Enjoy the game!** 🌟 💰
