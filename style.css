@@ -944,63 +944,63 @@ h4 {
    RESPONSIVE DESIGN FOR MOBILE DEVICES
    ======================================== */
 
-/* iPad / Tablet Screens (768px - 1024px) - Scale to 25% */
+/* iPad / Tablet Screens (768px - 1024px) - Scale to ~58% */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   /* Scale down emoji size for tablets */
   h1 {
-    font-size: 1.5rem !important; /* 25% of 6rem */
+    font-size: 3.5rem !important; /* ~58% of 6rem */
   }
 
   h2 {
-    font-size: 1rem !important;
+    font-size: 2.33rem !important; /* ~58% of 4rem */
   }
 
   h3 {
-    font-size: 0.75rem !important;
+    font-size: 1.75rem !important; /* ~58% of 3rem */
   }
 
   h4 {
-    font-size: 0.63rem !important;
+    font-size: 1.46rem !important; /* ~58% of 2.5rem */
   }
 
   /* Scale down color blocks for tablets */
   .color-block {
-    width: 30px !important; /* 25% of 120px */
-    height: 30px !important;
-    border-width: 1.5px !important;
+    width: 70px !important; /* ~58% of 120px */
+    height: 70px !important;
+    border-width: 3px !important;
   }
 
   /* Scale down color labels for tablets */
   .color-label {
-    font-size: 0.75rem !important; /* 25% of 3rem */
-    padding: 2px 5px !important;
-    border-width: 1px !important;
+    font-size: 1.75rem !important; /* ~58% of 3rem */
+    padding: 5px 12px !important;
+    border-width: 2px !important;
   }
 }
 
 /* Additional iPad-specific media query for better coverage */
 @media screen and (min-width: 810px) and (max-width: 1024px) {
   h1 {
-    font-size: 1.5rem !important;
+    font-size: 3.5rem !important;
   }
   h2 {
-    font-size: 1rem !important;
+    font-size: 2.33rem !important;
   }
   h3 {
-    font-size: 0.75rem !important;
+    font-size: 1.75rem !important;
   }
   h4 {
-    font-size: 0.63rem !important;
+    font-size: 1.46rem !important;
   }
   .color-block {
-    width: 30px !important;
-    height: 30px !important;
-    border-width: 1.5px !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-width: 3px !important;
   }
   .color-label {
-    font-size: 0.75rem !important;
-    padding: 2px 5px !important;
-    border-width: 1px !important;
+    font-size: 1.75rem !important;
+    padding: 5px 12px !important;
+    border-width: 2px !important;
   }
   /* Scale down floating messages */
   .match-message {
@@ -1029,26 +1029,26 @@ h4 {
 /* Force iPad scaling with higher specificity */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   body h1 {
-    font-size: 1.5rem !important;
+    font-size: 3.5rem !important;
   }
   body h2 {
-    font-size: 1rem !important;
+    font-size: 2.33rem !important;
   }
   body h3 {
-    font-size: 0.75rem !important;
+    font-size: 1.75rem !important;
   }
   body h4 {
-    font-size: 0.63rem !important;
+    font-size: 1.46rem !important;
   }
   body .color-block {
-    width: 30px !important;
-    height: 30px !important;
-    border-width: 1.5px !important;
+    width: 70px !important;
+    height: 70px !important;
+    border-width: 3px !important;
   }
   body .color-label {
-    font-size: 0.75rem !important;
-    padding: 2px 5px !important;
-    border-width: 1px !important;
+    font-size: 1.75rem !important;
+    padding: 5px 12px !important;
+    border-width: 2px !important;
   }
 }
 

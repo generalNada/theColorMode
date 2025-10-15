@@ -940,32 +940,32 @@ class LetterExplosion {
       const style = document.createElement("style");
       style.id = "ipad-scaling-fallback";
       style.textContent = `
-        h1 { font-size: 1.5rem !important; }
-        h2 { font-size: 1rem !important; }
-        h3 { font-size: 0.75rem !important; }
-        h4 { font-size: 0.63rem !important; }
-        .color-block { 
-          width: 30px !important; 
-          height: 30px !important; 
-          border-width: 1.5px !important; 
-        }
-        .color-label { 
-          font-size: 0.75rem !important; 
-          padding: 2px 5px !important; 
-          border-width: 1px !important; 
-        }
-        .match-message { 
-          font-size: 0.85rem !important; 
-          padding: 8px 16px !important; 
-        }
-        .victory-message { 
-          font-size: 1.2rem !important; 
-          padding: 12px 20px !important; 
-        }
-        body { 
-          padding: 40px 25px !important; 
-        }
-      `;
+          h1 { font-size: 3.5rem !important; }
+          h2 { font-size: 2.33rem !important; }
+          h3 { font-size: 1.75rem !important; }
+          h4 { font-size: 1.46rem !important; }
+          .color-block { 
+            width: 70px !important; 
+            height: 70px !important; 
+            border-width: 3px !important; 
+          }
+          .color-label { 
+            font-size: 1.75rem !important; 
+            padding: 5px 12px !important; 
+            border-width: 2px !important; 
+          }
+          .match-message { 
+            font-size: 1.7rem !important; 
+            padding: 16px 32px !important; 
+          }
+          .victory-message { 
+            font-size: 2.4rem !important; 
+            padding: 24px 40px !important; 
+          }
+          body { 
+            padding: 40px 25px !important; 
+          }
+        `;
       document.head.appendChild(style);
     }
   }
