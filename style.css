@@ -944,37 +944,37 @@ h4 {
    RESPONSIVE DESIGN FOR MOBILE DEVICES
    ======================================== */
 
-/* iPad / Tablet Screens (768px - 1024px) - Scale to 35% */
+/* iPad / Tablet Screens (768px - 1024px) - Scale to 25% */
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   /* Scale down emoji size for tablets */
   h1 {
-    font-size: 2.1rem !important; /* 35% of 6rem */
+    font-size: 1.5rem !important; /* 25% of 6rem */
   }
 
   h2 {
-    font-size: 1.4rem !important;
+    font-size: 1rem !important;
   }
 
   h3 {
-    font-size: 1.05rem !important;
+    font-size: 0.75rem !important;
   }
 
   h4 {
-    font-size: 0.88rem !important;
+    font-size: 0.63rem !important;
   }
 
   /* Scale down color blocks for tablets */
   .color-block {
-    width: 42px !important; /* 35% of 120px */
-    height: 42px !important;
-    border-width: 2px !important;
+    width: 30px !important; /* 25% of 120px */
+    height: 30px !important;
+    border-width: 1.5px !important;
   }
 
   /* Scale down color labels for tablets */
   .color-label {
-    font-size: 1.05rem !important; /* 35% of 3rem */
-    padding: 3px 7px !important;
-    border-width: 1.5px !important;
+    font-size: 0.75rem !important; /* 25% of 3rem */
+    padding: 2px 5px !important;
+    border-width: 1px !important;
   }
 
   /* Scale down floating messages */

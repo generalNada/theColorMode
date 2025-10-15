@@ -1833,12 +1833,34 @@ class LetterExplosion {
     // Add repositioning class for smooth animation
     element.classList.add("repositioning");
 
-    // Calculate random position
-    const newPosition = this.calculateRandomPosition(element);
+    // Calculate random position with collision protection
+    const newPosition = this.calculateRandomPositionNoOverlap(element);
 
     // Apply new position
     element.style.top = `${newPosition.top}px`;
     element.style.left = `${newPosition.left}px`;
+
+    // Update positioned elements tracking
+    const existingIndex = this.positionedElements.findIndex(
+      (p) => p.element === element
+    );
+    if (existingIndex !== -1) {
+      this.positionedElements[existingIndex] = {
+        element: element,
+        top: newPosition.top,
+        left: newPosition.left,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+      };
+    } else {
+      this.positionedElements.push({
+        element: element,
+        top: newPosition.top,
+        left: newPosition.left,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+      });
+    }
 
     // Skip layout transformations for color mode elements (keep them horizontal)
     if (

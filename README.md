@@ -136,6 +136,7 @@ Force all background colors to be dark with the Dark Mode toggle in the hamburge
   - Dark browns (chocolate to coffee)
   - Dark teals (deep teal to ocean)
   - Mixed dark shades for variety
+- **Immediate Background Generation**: Toggling dark mode instantly generates a new background color with smooth transitions
 - Your preference is saved to browser storage
 
 Perfect for playing in low-light environments, at night, or if you prefer darker aesthetics!
@@ -162,10 +163,10 @@ Lingering stardust particles add magic to your matches, but sometimes you want a
 
 ### 📱 iPad / Tablets (768px - 1024px)
 
-- **35% scaling** (30% smaller for better fit!)
-- Emojis: 2.1rem
-- Color blocks: 42px
-- Increased padding to prevent collisions
+- **25% scaling** (much smaller for better fit!)
+- Emojis: 1.5rem
+- Color blocks: 30px
+- Advanced collision protection prevents overlapping
 - Optimized touch targets and spacing
 
 ### 📱 iPhone / Small Screens (< 768px)
