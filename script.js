@@ -205,7 +205,79 @@ class LetterExplosion {
       soundEnabled: localStorage.getItem("soundEnabled") !== "false", // Default true
       speechEnabled: localStorage.getItem("speechEnabled") !== "false", // Default true
       darkModeEnabled: localStorage.getItem("darkModeEnabled") === "true", // Default false
+      selectedFont: localStorage.getItem("selectedFont") || "Bree Serif", // Default font
     };
+
+    // Available fonts for selection
+    this.availableFonts = [
+      { name: "Bree Serif", displayName: "Bree Serif", category: "Serif" },
+      { name: "Roboto Slab", displayName: "Roboto Slab", category: "Serif" },
+      { name: "Spicy Rice", displayName: "Spicy Rice", category: "Display" },
+      { name: "Bangers", displayName: "Bangers", category: "Display" },
+      { name: "Comic Neue", displayName: "Comic Neue", category: "Fun" },
+      { name: "Fredoka One", displayName: "Fredoka One", category: "Fun" },
+      { name: "Righteous", displayName: "Righteous", category: "Display" },
+      { name: "Luckiest Guy", displayName: "Luckiest Guy", category: "Fun" },
+      { name: "Chewy", displayName: "Chewy", category: "Fun" },
+      { name: "Boogaloo", displayName: "Boogaloo", category: "Fun" },
+      { name: "Creepster", displayName: "Creepster", category: "Spooky" },
+      { name: "Butcherman", displayName: "Butcherman", category: "Spooky" },
+      { name: "Nosifer", displayName: "Nosifer", category: "Spooky" },
+      { name: "Griffy", displayName: "Griffy", category: "Spooky" },
+      { name: "Creepy", displayName: "Creepy", category: "Spooky" },
+      { name: "Chiller", displayName: "Chiller", category: "Spooky" },
+      { name: "Jolly Lodger", displayName: "Jolly Lodger", category: "Spooky" },
+      { name: "Rubik Glitch", displayName: "Rubik Glitch", category: "Modern" },
+      {
+        name: "Rubik Wet Paint",
+        displayName: "Rubik Wet Paint",
+        category: "Modern",
+      },
+      {
+        name: "Rubik Moonrocks",
+        displayName: "Rubik Moonrocks",
+        category: "Modern",
+      },
+      {
+        name: "Rubik Beastly",
+        displayName: "Rubik Beastly",
+        category: "Modern",
+      },
+      {
+        name: "Rubik Marker Hatch",
+        displayName: "Rubik Marker Hatch",
+        category: "Modern",
+      },
+      {
+        name: "Rubik Distressed",
+        displayName: "Rubik Distressed",
+        category: "Modern",
+      },
+      { name: "Rubik Vinyl", displayName: "Rubik Vinyl", category: "Modern" },
+      {
+        name: "Rubik Microbe",
+        displayName: "Rubik Microbe",
+        category: "Modern",
+      },
+      {
+        name: "Rubik 80s Fade",
+        displayName: "Rubik 80s Fade",
+        category: "Retro",
+      },
+      { name: "Rubik Maze", displayName: "Rubik Maze", category: "Modern" },
+      { name: "Rubik Storm", displayName: "Rubik Storm", category: "Modern" },
+      {
+        name: "Rubik Gemstones",
+        displayName: "Rubik Gemstones",
+        category: "Modern",
+      },
+      { name: "Rubik Burned", displayName: "Rubik Burned", category: "Modern" },
+      {
+        name: "Rubik Glitch Pop",
+        displayName: "Rubik Glitch Pop",
+        category: "Modern",
+      },
+    ];
 
     // Create shared audio context for better iOS compatibility
     this.audioContext = null;
@@ -240,6 +312,14 @@ class LetterExplosion {
 
     // Apply iPad-specific scaling as fallback
     this.applyIPadScaling();
+
+    // Apply selected font
+    this.applySelectedFont();
+
+    // Update font menu item after a short delay to ensure it's created
+    setTimeout(() => {
+      this.updateFontMenuItem();
+    }, 100);
   }
 
   setupElements() {
@@ -613,6 +693,20 @@ class LetterExplosion {
     });
     audioSection.appendChild(darkModeItem);
 
+    // Font Selection Item
+    const fontItem = this.createMenuItem({
+      icon: "🔤",
+      label: "Font Selection",
+      description: `Current font: ${this.settings.selectedFont}. Click to choose from 30+ fun fonts including spooky, modern, and retro styles!`,
+      onClick: () => {
+        this.openFontModal();
+        this.playSound("toggle");
+      },
+    });
+    // Store reference for updating
+    this.fontMenuItem = fontItem;
+    audioSection.appendChild(fontItem);
+
     menuPanel.appendChild(audioSection);
 
     // Utilities Section
@@ -940,7 +1034,7 @@ class LetterExplosion {
       const style = document.createElement("style");
       style.id = "ipad-scaling-fallback";
       style.textContent = `
-          h1 { font-size: 3.5rem !important; }
+          h1 { font-size: 4.55rem !important; }
           h2 { font-size: 2.33rem !important; }
           h3 { font-size: 1.75rem !important; }
           h4 { font-size: 1.46rem !important; }
@@ -968,6 +1062,163 @@ class LetterExplosion {
         `;
       document.head.appendChild(style);
     }
+  }
+
+  openFontModal() {
+    // Create font selection modal
+    const modal = document.createElement("div");
+    modal.className = "font-modal-overlay";
+    modal.innerHTML = `
+      <div class="font-modal">
+        <div class="font-modal-header">
+          <button class="font-modal-close">&times;</button>
+        </div>
+        <div class="font-modal-content">
+          <div class="font-categories">
+            ${this.getFontCategories()
+              .map(
+                (category) => `
+              <button class="font-category-btn" data-category="${category}">
+                ${category}
+              </button>
+            `
+              )
+              .join("")}
+          </div>
+          <div class="font-grid">
+            ${this.availableFonts
+              .map(
+                (font) => `
+              <div class="font-option ${
+                font.name === this.settings.selectedFont ? "selected" : ""
+              }" 
+                   data-font="${font.name}" 
+                   data-category="${font.category}">
+                <div class="font-preview" style="font-family: '${
+                  font.name
+                }', sans-serif;">
+                  Aa Bb Cc
+                </div>
+                <div class="font-name">${font.displayName}</div>
+              </div>
+            `
+              )
+              .join("")}
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Add event listeners
+    modal.querySelector(".font-modal-close").addEventListener("click", () => {
+      this.closeFontModal(modal);
+    });
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        this.closeFontModal(modal);
+      }
+    });
+
+    // Category filter buttons
+    modal.querySelectorAll(".font-category-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const category = btn.dataset.category;
+        this.filterFontsByCategory(modal, category);
+
+        // Update active category button
+        modal
+          .querySelectorAll(".font-category-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    // Font selection
+    modal.querySelectorAll(".font-option").forEach((option) => {
+      option.addEventListener("click", () => {
+        const fontName = option.dataset.font;
+        this.selectFont(fontName);
+        this.closeFontModal(modal);
+      });
+    });
+
+    // Show modal with animation
+    setTimeout(() => modal.classList.add("show"), 10);
+  }
+
+  closeFontModal(modal) {
+    modal.classList.remove("show");
+    setTimeout(() => {
+      if (modal.parentNode) {
+        modal.parentNode.removeChild(modal);
+      }
+    }, 300);
+  }
+
+  getFontCategories() {
+    const categories = [
+      ...new Set(this.availableFonts.map((font) => font.category)),
+    ];
+    return ["All", ...categories];
+  }
+
+  filterFontsByCategory(modal, category) {
+    const fontOptions = modal.querySelectorAll(".font-option");
+    fontOptions.forEach((option) => {
+      if (category === "All" || option.dataset.category === category) {
+        option.style.display = "block";
+      } else {
+        option.style.display = "none";
+      }
+    });
+  }
+
+  selectFont(fontName) {
+    this.settings.selectedFont = fontName;
+    localStorage.setItem("selectedFont", fontName);
+    this.applySelectedFont();
+    this.updateFontMenuItem();
+    this.playSound("toggle");
+    console.log("🔤 Font changed to:", fontName);
+  }
+
+  updateFontMenuItem() {
+    // Update the font menu item description with current font
+    if (this.fontMenuItem) {
+      const desc = this.fontMenuItem.querySelector(".menu-item-description");
+      if (desc) {
+        desc.textContent = `Current font: ${this.settings.selectedFont}. Click to choose from 30+ fun fonts including spooky, modern, and retro styles!`;
+      }
+    }
+  }
+
+  applySelectedFont() {
+    // Apply the selected font to all text elements
+    const style = document.createElement("style");
+    style.id = "selected-font-style";
+
+    // Remove existing font style
+    const existingStyle = document.getElementById("selected-font-style");
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+
+    style.textContent = `
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "${this.settings.selectedFont}", sans-serif !important;
+      }
+      .color-label {
+        font-family: "${this.settings.selectedFont}", sans-serif !important;
+      }
+      .match-message, .victory-message {
+        font-family: "${this.settings.selectedFont}", sans-serif !important;
+      }
+    `;
+
+    document.head.appendChild(style);
   }
 
   // Haptic feedback removed
@@ -1600,8 +1851,8 @@ class LetterExplosion {
     messageEl.className = isLarge ? "victory-message" : "match-message";
     messageEl.textContent = text;
 
-    const displayTime = isLarge ? 6000 : 2000; // Victory shows for 6 seconds
-    const fadeTime = isLarge ? 2000 : 500; // Victory fades over 2 seconds
+    const displayTime = isLarge ? 6000 : 4000; // Victory shows for 6 seconds, match for 4 seconds
+    const fadeTime = 1000; // Both messages fade over 1 second
 
     messageEl.style.cssText = `
       position: fixed;
@@ -1617,7 +1868,7 @@ class LetterExplosion {
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
       pointer-events: none;
       z-index: 10000;
-      animation: floatMessage ${isLarge ? "2s" : "1.5s"} ease-out forwards;
+      animation: floatMessage ${isLarge ? "3s" : "2s"} ease-out forwards;
       font-family: "Bangers", system-ui;
       text-align: center;
       max-width: 90vw;

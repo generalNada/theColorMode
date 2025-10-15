@@ -75,6 +75,7 @@ Click the hamburger button (☰) in the top-right corner to access:
 - **🔊 Sound**: Toggle sound effects on/off (saved to browser storage)
 - **🗣️ Voice**: Toggle voice announcements on/off (saved to browser storage)
 - **🌙/🌞 Dark Mode**: Force all background colors to be dark, or allow any color (saved to browser storage)
+- **🔤 Font Selection**: Choose from 30+ fun fonts including spooky, modern, and retro styles (saved to browser storage)
 - **✨ Clear Stardust**: Instantly remove all lingering stardust particles from the screen
 - **❓ How to Play**: Quick instructions and tips
 
@@ -141,6 +142,29 @@ Force all background colors to be dark with the Dark Mode toggle in the hamburge
 
 Perfect for playing in low-light environments, at night, or if you prefer darker aesthetics!
 
+## 🔤 Font Selection
+
+Customize the look and feel of your game with 30+ unique fonts!
+
+**How it works:**
+
+- **Font Categories**: Choose from Serif, Display, Fun, Spooky, Modern, and Retro styles
+- **Live Preview**: See exactly how each font looks with "Aa Bb Cc" preview
+- **Instant Application**: Font changes apply immediately to all text elements
+- **Persistent Choice**: Your font selection is saved and restored on page reload
+- **Universal Coverage**: Affects all text including emojis, color labels, and messages
+
+**Available Font Categories:**
+
+- **Serif**: Classic, readable fonts (Bree Serif, Roboto Slab)
+- **Display**: Bold, attention-grabbing fonts (Spicy Rice, Bangers, Righteous)
+- **Fun**: Playful, friendly fonts (Comic Neue, Fredoka One, Luckiest Guy, Chewy, Boogaloo)
+- **Spooky**: Halloween-themed fonts (Creepster, Butcherman, Nosifer, Griffy, Creepy, Chiller, Jolly Lodger)
+- **Modern**: Contemporary, stylish fonts (Rubik Glitch, Rubik Wet Paint, Rubik Moonrocks, Rubik Beastly, etc.)
+- **Retro**: Vintage-inspired fonts (Rubik 80s Fade)
+
+Perfect for personalizing your gaming experience or matching your mood!
+
 ## ✨ Stardust Management
 
 Lingering stardust particles add magic to your matches, but sometimes you want a clean screen!
@@ -163,8 +187,8 @@ Lingering stardust particles add magic to your matches, but sometimes you want a
 
 ### 📱 iPad / Tablets (768px - 1024px)
 
-- **~58% scaling** (appropriately sized for tablets!)
-- Emojis: 3.5rem
+- **~58% scaling + 30% emoji boost** (perfectly sized for tablets!)
+- Emojis: 4.55rem (larger for better visibility)
 - Color blocks: 70px
 - Advanced collision protection prevents overlapping
 - Optimized touch targets and spacing
