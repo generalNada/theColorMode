@@ -162,9 +162,10 @@ Lingering stardust particles add magic to your matches, but sometimes you want a
 
 ### 📱 iPad / Tablets (768px - 1024px)
 
-- **50% scaling** (half size - perfect for tablets!)
-- Emojis: 3rem
-- Color blocks: 60px
+- **35% scaling** (30% smaller for better fit!)
+- Emojis: 2.1rem
+- Color blocks: 42px
+- Increased padding to prevent collisions
 - Optimized touch targets and spacing
 
 ### 📱 iPhone / Small Screens (< 768px)
