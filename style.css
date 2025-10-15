@@ -1195,36 +1195,36 @@ h4 {
   }
 }
 
-/* iPhone / Small Phone Screens (< 768px) - Scale to 40% */
+/* iPhone / Small Phone Screens (< 768px) - Scale to 44% */
 @media screen and (max-width: 767px) {
   /* Scale down emoji size for phones */
   h1 {
-    font-size: 2.4rem !important; /* 40% of 6rem */
+    font-size: 2.64rem !important; /* 44% of 6rem */
   }
 
   h2 {
-    font-size: 1.6rem !important;
+    font-size: 1.76rem !important;
   }
 
   h3 {
-    font-size: 1.3rem !important;
+    font-size: 1.43rem !important;
   }
 
   h4 {
-    font-size: 1.1rem !important;
+    font-size: 1.21rem !important;
   }
 
   /* Scale down color blocks for phones */
   .color-block {
-    width: 48px !important; /* 40% of 120px */
-    height: 48px !important;
+    width: 53px !important; /* 44% of 120px */
+    height: 53px !important;
     border-width: 2px !important;
   }
 
   /* Scale down color labels for phones */
   .color-label {
-    font-size: 1.2rem !important; /* 40% of 3rem */
-    padding: 4px 8px !important;
+    font-size: 1.32rem !important; /* 44% of 3rem */
+    padding: 4px 9px !important;
     border-width: 2px !important;
   }
 

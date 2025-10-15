@@ -56,7 +56,7 @@ Each menu item includes a detailed description of what it does - perfect for new
 - Random positioning on each page load
 - Victory confetti celebration when you complete the game
 
-### 🔊 Sound Effects & Music
+### 🔊 Sound Effects
 
 - **Select sound**: Soft click when selecting an emoji
 - **Match sound**: Satisfying "pop" when you find a pair
@@ -64,9 +64,6 @@ Each menu item includes a detailed description of what it does - perfect for new
 - **Explosion sound**: Soft whoosh for matched pairs
 - **Victory fanfare**: Triumphant celebration when you win
 - **Background sound**: Ambient tone for color explosions
-- **Victory songs**: Separate MP3 songs play for Emoji Mode and Color Mode victories! 🎵
-  - `victory-song.mp3` plays when you win in Emoji Mode
-  - `victory-song-color.mp3` plays when you win in Color Mode
 - **Toggle in menu**: Enable/disable sounds and voice in the hamburger menu
 
 ### 🎮 Game Controls (All in Hamburger Menu!)
@@ -77,6 +74,7 @@ Click the hamburger button (☰) in the top-right corner to access:
 - **🔄 New Game**: Resets the game, brings back all elements, and randomizes positions
 - **🔊 Sound**: Toggle sound effects on/off (saved to browser storage)
 - **🗣️ Voice**: Toggle voice announcements on/off (saved to browser storage)
+- **🌙/🌞 Dark Mode**: Force all background colors to be dark, or allow any color (saved to browser storage)
 - **❓ How to Play**: Quick instructions and tips
 
 Each control has a full explanation in the menu so you always know what it does!
@@ -121,27 +119,17 @@ this.colorMatchMessages = {
 
 The game will automatically create color blocks and labels for all colors in `colorDefinitions`!
 
-## 🎵 Adding Victory Songs
+## 🌙 Dark Mode
 
-The game supports separate victory songs for each mode!
+Force all background colors to be dark with the Dark Mode toggle in the hamburger menu!
 
-**Currently configured:**
+**How it works:**
 
-- `victory-song.mp3` - Plays when you win in Emoji Mode ✅
-- `victory-song-color.mp3` - Plays when you win in Color Mode ✅
+- When **Dark Mode is OFF** (default): Background can be any color - dark, vibrant, pastel, neon, earth tones, or jewel tones
+- When **Dark Mode is ON**: All background colors will be dark (RGB values 0-120) for a comfortable viewing experience
+- Your preference is saved to browser storage
 
-**To customize victory songs:**
-
-1. Replace `victory-song.mp3` for Emoji Mode or `victory-song-color.mp3` for Color Mode
-2. Keep the same file names, or update the paths in `script.js` (search for `initVictorySongs()`)
-3. The game will automatically play the appropriate song when you win!
-
-**Tips:**
-
-- Keep songs under 30 seconds for best experience
-- Volume is set to 60% by default (adjustable in `script.js`)
-- Songs work on all devices (iOS requires user interaction first - **now silently unlocked!**)
-- If a song file is missing, the game gracefully continues without it
+Perfect for playing in low-light environments or if you prefer darker aesthetics!
 
 ## 📱 Device Compatibility & Responsive Design
 
@@ -160,16 +148,16 @@ The game supports separate victory songs for each mode!
 
 ### 📱 iPhone / Small Screens (< 768px)
 
-- **40% scaling** (larger and easier to see!)
-- Emojis: 2.4rem
-- Color blocks: 48px
+- **44% scaling** (larger and easier to see!)
+- Emojis: 2.64rem
+- Color blocks: 53px
 - Compact menu and controls
 - Maximum screen space for gameplay
 
 ### ✨ iOS Optimizations
 
 - Touch-optimized for smooth tapping and dragging
-- iOS audio unlocking for sound effects and victory songs
+- iOS audio unlocking for sound effects
 - Prevents text selection and iOS callout menus
 - Hardware-accelerated animations
 - Backdrop blur effects on the menu

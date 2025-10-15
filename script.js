@@ -202,6 +202,7 @@ class LetterExplosion {
     this.settings = {
       soundEnabled: localStorage.getItem("soundEnabled") !== "false", // Default true
       speechEnabled: localStorage.getItem("speechEnabled") !== "false", // Default true
+      darkModeEnabled: localStorage.getItem("darkModeEnabled") === "true", // Default false
     };
 
     // Create shared audio context for better iOS compatibility
@@ -224,11 +225,6 @@ class LetterExplosion {
     // Track positioned elements to prevent overlap
     this.positionedElements = [];
 
-    // Victory song audio elements - separate songs for emoji and color modes
-    this.victorySongEmoji = null;
-    this.victorySongColor = null;
-    this.initVictorySongs();
-
     this.init();
   }
 
@@ -239,110 +235,6 @@ class LetterExplosion {
     } else {
       this.setupElements();
     }
-  }
-
-  initVictorySongs() {
-    // Create audio elements for victory songs
-    // Separate songs for emoji and color modes!
-
-    // Emoji mode victory song
-    const emojiSongPath = "victory-song.mp3"; // <<< PUT YOUR EMOJI MODE MP3 FILE HERE
-    this.victorySongEmoji = new Audio(emojiSongPath);
-    this.victorySongEmoji.volume = 0.6;
-    this.victorySongEmoji.preload = "auto";
-
-    // Color mode victory song
-    const colorSongPath = "victory-song-color.mp3"; // <<< PUT YOUR COLOR MODE MP3 FILE HERE
-    this.victorySongColor = new Audio(colorSongPath);
-    this.victorySongColor.volume = 0.6;
-    this.victorySongColor.preload = "auto";
-
-    this.victorySongUnlocked = false;
-
-    // Handle errors gracefully for emoji song
-    this.victorySongEmoji.addEventListener("error", (e) => {
-      console.log(
-        "Emoji victory song not found. To add a victory song:",
-        "\n1. Add an MP3 file named 'victory-song.mp3' to your project folder",
-        "\n2. Or update the 'emojiSongPath' in initVictorySongs() to point to your MP3"
-      );
-      this.victorySongEmoji = null;
-    });
-
-    // Handle errors gracefully for color song
-    this.victorySongColor.addEventListener("error", (e) => {
-      console.log(
-        "Color victory song not found. To add a color mode victory song:",
-        "\n1. Add an MP3 file named 'victory-song-color.mp3' to your project folder",
-        "\n2. Or update the 'colorSongPath' in initVictorySongs() to point to your MP3"
-      );
-      this.victorySongColor = null;
-    });
-
-    // iOS audio unlock - play silent audio on first user interaction
-    this.unlockVictorySongAudio();
-
-    console.log("🎵 Victory songs ready:", emojiSongPath, "and", colorSongPath);
-  }
-
-  unlockVictorySongAudio() {
-    const unlockAudio = () => {
-      if (this.victorySongUnlocked) return;
-
-      // Mark as unlocked immediately to prevent multiple triggers
-      this.victorySongUnlocked = true;
-
-      // Set volume to 0 before attempting to play (silent unlock)
-      if (this.victorySongEmoji) {
-        const originalVolume = this.victorySongEmoji.volume;
-        this.victorySongEmoji.volume = 0;
-        this.victorySongEmoji
-          .play()
-          .then(() => {
-            this.victorySongEmoji.pause();
-            this.victorySongEmoji.currentTime = 0;
-            this.victorySongEmoji.volume = originalVolume;
-          })
-          .catch((e) => {
-            this.victorySongEmoji.volume = originalVolume;
-            console.log("Emoji victory song unlock attempt:", e.message);
-          });
-      }
-
-      if (this.victorySongColor) {
-        const originalVolume = this.victorySongColor.volume;
-        this.victorySongColor.volume = 0;
-        this.victorySongColor
-          .play()
-          .then(() => {
-            this.victorySongColor.pause();
-            this.victorySongColor.currentTime = 0;
-            this.victorySongColor.volume = originalVolume;
-          })
-          .catch((e) => {
-            this.victorySongColor.volume = originalVolume;
-            console.log("Color victory song unlock attempt:", e.message);
-          });
-      }
-
-      console.log("✓ Victory song audio unlocked for iOS (silently)");
-    };
-
-    // Listen for first user interaction to unlock audio
-    // Use a single listener that removes itself after first trigger
-    const unlockHandler = () => {
-      unlockAudio();
-      // Remove all listeners after first trigger
-      document.removeEventListener("touchstart", unlockHandler);
-      document.removeEventListener("touchend", unlockHandler);
-      document.removeEventListener("click", unlockHandler);
-      document.removeEventListener("keydown", unlockHandler);
-    };
-
-    document.addEventListener("touchstart", unlockHandler, { passive: true });
-    document.addEventListener("touchend", unlockHandler, { passive: true });
-    document.addEventListener("click", unlockHandler);
-    document.addEventListener("keydown", unlockHandler);
   }
 
   setupElements() {
@@ -597,19 +489,19 @@ class LetterExplosion {
     menuPanel.className = "menu-panel";
 
     // Menu title
-    const menuTitle = document.createElement("h2");
-    menuTitle.className = "menu-title";
-    menuTitle.textContent = "Game Controls";
-    menuPanel.appendChild(menuTitle);
+    // const menuTitle = document.createElement("h2");
+    // menuTitle.className = "menu-title";
+    // menuTitle.textContent = "Game Controls";
+    // menuPanel.appendChild(menuTitle);
 
     // Game Modes Section
     const modesSection = document.createElement("div");
     modesSection.className = "menu-section";
 
-    const modesSectionTitle = document.createElement("h3");
-    modesSectionTitle.className = "menu-section-title";
-    modesSectionTitle.textContent = "Game Modes";
-    modesSection.appendChild(modesSectionTitle);
+    // const modesSectionTitle = document.createElement("h3");
+    // modesSectionTitle.className = "menu-section-title";
+    // modesSectionTitle.textContent = "Game Modes";
+    // modesSection.appendChild(modesSectionTitle);
 
     // Switch Mode Item
     const switchModeItem = this.createMenuItem({
@@ -658,10 +550,10 @@ class LetterExplosion {
     const audioSection = document.createElement("div");
     audioSection.className = "menu-section";
 
-    const audioSectionTitle = document.createElement("h3");
-    audioSectionTitle.className = "menu-section-title";
-    audioSectionTitle.textContent = "Audio Settings";
-    audioSection.appendChild(audioSectionTitle);
+    // const audioSectionTitle = document.createElement("h3");
+    // audioSectionTitle.className = "menu-section-title";
+    // audioSectionTitle.textContent = "Audio Settings";
+    // audioSection.appendChild(audioSectionTitle);
 
     // Sound Toggle Item
     const soundItem = this.createMenuItem({
@@ -708,16 +600,37 @@ class LetterExplosion {
     });
     audioSection.appendChild(voiceItem);
 
+    // Dark Mode Toggle Item
+    const darkModeItem = this.createMenuItem({
+      icon: this.settings.darkModeEnabled ? "🌙" : "🌞",
+      label: "Dark Mode",
+      description: this.settings.darkModeEnabled
+        ? "Dark mode is ON. All background colors will be dark. Click to allow all colors."
+        : "Dark mode is OFF. Background can be any color. Click to force dark backgrounds only.",
+      onClick: () => {
+        this.settings.darkModeEnabled = !this.settings.darkModeEnabled;
+        localStorage.setItem("darkModeEnabled", this.settings.darkModeEnabled);
+        const icon = darkModeItem.querySelector(".menu-item-icon");
+        const desc = darkModeItem.querySelector(".menu-item-description");
+        icon.textContent = this.settings.darkModeEnabled ? "🌙" : "🌞";
+        desc.textContent = this.settings.darkModeEnabled
+          ? "Dark mode is ON. All background colors will be dark. Click to allow all colors."
+          : "Dark mode is OFF. Background can be any color. Click to force dark backgrounds only.";
+        this.playSound("toggle");
+      },
+    });
+    audioSection.appendChild(darkModeItem);
+
     menuPanel.appendChild(audioSection);
 
     // How to Play Section
     const helpSection = document.createElement("div");
     helpSection.className = "menu-section";
 
-    const helpSectionTitle = document.createElement("h3");
-    helpSectionTitle.className = "menu-section-title";
-    helpSectionTitle.textContent = "How to Play";
-    helpSection.appendChild(helpSectionTitle);
+    // const helpSectionTitle = document.createElement("h3");
+    // helpSectionTitle.className = "menu-section-title";
+    // helpSectionTitle.textContent = "How to Play";
+    // helpSection.appendChild(helpSectionTitle);
 
     const howToPlayItem = this.createMenuItem({
       icon: "❓",
@@ -1431,69 +1344,6 @@ class LetterExplosion {
     this.playSound("victory");
     this.speak(message);
     this.createVictoryConfetti();
-
-    // Play victory song after fanfare (2 second delay)
-    setTimeout(() => {
-      this.playVictorySong();
-    }, 2000);
-  }
-
-  playVictorySong() {
-    if (!this.settings.soundEnabled) return;
-
-    // Choose the right song based on current mode
-    const victorySong =
-      this.currentMode === "emoji"
-        ? this.victorySongEmoji
-        : this.victorySongColor;
-
-    if (!victorySong) return;
-
-    // Stop any currently playing songs and restart from beginning
-    if (this.victorySongEmoji) {
-      this.victorySongEmoji.pause();
-      this.victorySongEmoji.currentTime = 0;
-    }
-    if (this.victorySongColor) {
-      this.victorySongColor.pause();
-      this.victorySongColor.currentTime = 0;
-    }
-
-    // Play the appropriate song for the current mode
-    const playPromise = victorySong.play();
-
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          console.log(`🎵 Playing ${this.currentMode} mode victory song!`);
-        })
-        .catch((error) => {
-          console.log(
-            "⚠️ Victory song play blocked (iOS autoplay policy):",
-            error.message
-          );
-          console.log(
-            "💡 Tip: Tap the screen once after loading to enable audio on iOS"
-          );
-
-          // Try to unlock and play again after a moment
-          setTimeout(() => {
-            if (!this.victorySongUnlocked) {
-              const retryPromise = victorySong.play();
-              if (retryPromise !== undefined) {
-                retryPromise
-                  .then(() => {
-                    console.log("🎵 Victory song playing after retry!");
-                    this.victorySongUnlocked = true;
-                  })
-                  .catch(() => {
-                    console.log("Still blocked - user interaction needed");
-                  });
-              }
-            }
-          }, 500);
-        });
-    }
   }
 
   displayFloatingMessage(text, color, isLarge = false) {
@@ -2423,7 +2273,12 @@ class BackgroundEffects {
   }
 
   generateRandomEndColor() {
-    // Choose random color generation method
+    // If dark mode is enabled, always use dark colors
+    if (this.settings.darkModeEnabled) {
+      return this.generateRandomDarkColor();
+    }
+
+    // Otherwise, choose random color generation method
     const methods = [
       () => this.generateRandomDarkColor(),
       () => this.generateRandomVibrantColor(),
