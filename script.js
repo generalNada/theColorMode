@@ -603,6 +603,9 @@ class LetterExplosion {
           ? "Dark mode is ON. All background colors will be dark. Click to allow all colors."
           : "Dark mode is OFF. Background can be any color. Click to force dark backgrounds only.";
         this.playSound("toggle");
+
+        // Immediately generate new background color based on mode
+        this.generateImmediateBackgroundColor();
       },
     });
     audioSection.appendChild(darkModeItem);
@@ -732,6 +735,185 @@ class LetterExplosion {
       }
     });
     console.log(`✨ Cleared ${allStardust.length} stardust particles`);
+  }
+
+  generateImmediateBackgroundColor() {
+    // Generate a new background color immediately when dark mode is toggled
+    console.log("🎨 Generating immediate background color...");
+
+    // Use the BackgroundEffects class to generate appropriate color
+    if (window.backgroundEffects) {
+      // Update the settings reference to ensure it's current
+      window.backgroundEffects.settings = this.settings;
+      const newColor = window.backgroundEffects.generateRandomEndColor();
+
+      // Apply the color with a smooth transition
+      document.body.style.transition = "background-color 0.8s ease-in-out";
+      document.body.style.backgroundColor = newColor;
+
+      console.log("✅ New background color applied:", newColor);
+    } else {
+      // Fallback if BackgroundEffects isn't available
+      const fallbackColor = this.settings.darkModeEnabled
+        ? this.generateRandomDarkColor()
+        : this.generateRandomColor();
+
+      document.body.style.transition = "background-color 0.8s ease-in-out";
+      document.body.style.backgroundColor = fallbackColor;
+
+      console.log("✅ Fallback background color applied:", fallbackColor);
+    }
+  }
+
+  generateRandomDarkColor() {
+    // Generate extra dark colors for dark mode
+    const darkPalettes = [
+      // Very dark grays and blacks
+      () => {
+        const shade = Math.floor(Math.random() * 51);
+        return `rgb(${shade}, ${shade}, ${shade})`;
+      },
+      // Dark blues (navy to midnight)
+      () => {
+        const r = Math.floor(Math.random() * 30);
+        const g = Math.floor(Math.random() * 40);
+        const b = Math.floor(Math.random() * 80);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark purples (deep purple to plum)
+      () => {
+        const r = Math.floor(Math.random() * 60);
+        const g = Math.floor(Math.random() * 30);
+        const b = Math.floor(Math.random() * 70);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark greens (forest to hunter)
+      () => {
+        const r = Math.floor(Math.random() * 30);
+        const g = Math.floor(Math.random() * 60);
+        const b = Math.floor(Math.random() * 40);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark reds (burgundy to wine)
+      () => {
+        const r = Math.floor(Math.random() * 70);
+        const g = Math.floor(Math.random() * 20);
+        const b = Math.floor(Math.random() * 30);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+      // Dark browns (chocolate to coffee)
+      () => {
+        const r = Math.floor(Math.random() * 60) + 20;
+        const g = Math.floor(Math.random() * 40) + 10;
+        const b = Math.floor(Math.random() * 30);
+        return `rgb(${r}, ${g}, ${b})`;
+      },
+    ];
+
+    const palette =
+      darkPalettes[Math.floor(Math.random() * darkPalettes.length)];
+    return palette();
+  }
+
+  generateRandomColor() {
+    // Generate any random color for regular mode
+    const methods = [
+      () => this.generateRandomVibrantColor(),
+      () => this.generateRandomPastelColor(),
+      () => this.generateRandomNeonColor(),
+      () => this.generateRandomEarthTone(),
+      () => this.generateRandomJewelTone(),
+    ];
+
+    const randomMethod = methods[Math.floor(Math.random() * methods.length)];
+    return randomMethod();
+  }
+
+  generateRandomVibrantColor() {
+    // Generate vibrant colors with at least one high value
+    const colors = [];
+    for (let i = 0; i < 3; i++) {
+      colors.push(Math.floor(Math.random() * 256));
+    }
+    // Ensure at least one color is vibrant (>150)
+    const randomIndex = Math.floor(Math.random() * 3);
+    colors[randomIndex] = Math.max(
+      colors[randomIndex],
+      150 + Math.floor(Math.random() * 106)
+    );
+
+    return `rgb(${colors[0]}, ${colors[1]}, ${colors[2]})`;
+  }
+
+  generateRandomPastelColor() {
+    // Generate soft pastel colors
+    const r = 150 + Math.floor(Math.random() * 106);
+    const g = 150 + Math.floor(Math.random() * 106);
+    const b = 150 + Math.floor(Math.random() * 106);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  generateRandomNeonColor() {
+    // Generate bright neon-like colors
+    const neonBase = [
+      [255, 0, 255],
+      [0, 255, 255],
+      [255, 255, 0],
+      [255, 0, 128],
+      [128, 255, 0],
+      [0, 128, 255],
+    ];
+    const base = neonBase[Math.floor(Math.random() * neonBase.length)];
+
+    // Add some variation to the base neon color
+    const r = Math.max(0, Math.min(255, base[0] + (Math.random() - 0.5) * 100));
+    const g = Math.max(0, Math.min(255, base[1] + (Math.random() - 0.5) * 100));
+    const b = Math.max(0, Math.min(255, base[2] + (Math.random() - 0.5) * 100));
+
+    return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+  }
+
+  generateRandomEarthTone() {
+    // Generate earth tones (browns, greens, oranges)
+    const earthPalettes = [
+      { r: [101, 67, 33], g: [67, 33, 16], b: [33, 16, 8] }, // Browns
+      { r: [34, 68, 102], g: [85, 119, 153], b: [34, 51, 68] }, // Forest greens
+      { r: [153, 102, 51], g: [102, 68, 34], b: [51, 34, 17] }, // Oranges/rust
+      { r: [68, 85, 102], g: [85, 102, 119], b: [102, 119, 136] }, // Blue-grays
+    ];
+
+    const palette =
+      earthPalettes[Math.floor(Math.random() * earthPalettes.length)];
+    const r =
+      palette.r[Math.floor(Math.random() * palette.r.length)] +
+      Math.floor(Math.random() * 50);
+    const g =
+      palette.g[Math.floor(Math.random() * palette.g.length)] +
+      Math.floor(Math.random() * 50);
+    const b =
+      palette.b[Math.floor(Math.random() * palette.b.length)] +
+      Math.floor(Math.random() * 50);
+
+    return `rgb(${Math.min(255, r)}, ${Math.min(255, g)}, ${Math.min(255, b)})`;
+  }
+
+  generateRandomJewelTone() {
+    // Generate rich jewel tones
+    const jewelBases = [
+      [128, 0, 128], // Purple (amethyst)
+      [0, 100, 0], // Green (emerald)
+      [220, 20, 60], // Red (ruby)
+      [0, 0, 139], // Blue (sapphire)
+      [255, 140, 0], // Orange (topaz)
+      [75, 0, 130], // Indigo
+    ];
+
+    const base = jewelBases[Math.floor(Math.random() * jewelBases.length)];
+    const r = Math.max(0, Math.min(255, base[0] + (Math.random() - 0.5) * 80));
+    const g = Math.max(0, Math.min(255, base[1] + (Math.random() - 0.5) * 80));
+    const b = Math.max(0, Math.min(255, base[2] + (Math.random() - 0.5) * 80));
+
+    return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
   }
 
   // Haptic feedback removed
@@ -2287,7 +2469,7 @@ class BackgroundEffects {
 
   generateRandomEndColor() {
     // If dark mode is enabled, always use dark colors
-    if (this.settings.darkModeEnabled) {
+    if (this.settings && this.settings.darkModeEnabled) {
       return this.generateRandomDarkColor();
     }
 
@@ -2658,6 +2840,9 @@ class BackgroundEffects {
 // Initialize both systems
 const letterExplosion = new LetterExplosion();
 const backgroundEffects = new BackgroundEffects();
+
+// Make backgroundEffects globally available for immediate background generation
+window.backgroundEffects = backgroundEffects;
 
 // All systems initialized and ready!
 
